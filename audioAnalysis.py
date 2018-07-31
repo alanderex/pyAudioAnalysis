@@ -102,7 +102,7 @@ def classifyFileWrapper(inputFile, modelType, modelName):
 
     [Result, P, classNames] = aT.fileClassification(inputFile, modelName,
                                                     modelType)
-    print "{0:s}\t{1:s}".format("Class", "Probability")
+    print("{0:s}\t{1:s}".format("Class", "Probability"))
     for i, c in enumerate(classNames):
         print("{0:s}\t{1:.2f}".format(c, P[i]))
     print("Winner class: " + classNames[int(Result)])
@@ -227,11 +227,11 @@ def silenceRemovalWrapper(inputFile, smoothingWindow, weight):
         wavfile.write(strOut, Fs, x[int(Fs * s[0]):int(Fs * s[1])])
 
 
-def speakerDiarizationWrapper(inputFile, numSpeakers, useLDA):
+def speakerDiarizationWrapper(inputFile, numSpeakers, useLDA, SAVEPLOT=True):
     if useLDA:
-        aS.speakerDiarization(inputFile, numSpeakers, PLOT=True)
+        aS.speakerDiarization(inputFile, numSpeakers, PLOT=True, SAVEPLOT=SAVEPLOT)
     else:
-        aS.speakerDiarization(inputFile, numSpeakers, LDAdim=0, PLOT=True)
+        aS.speakerDiarization(inputFile, numSpeakers, LDAdim=0, PLOT=True, SAVEPLOT=SAVEPLOT)
 
 
 def thumbnailWrapper(inputFile, thumbnailWrapperSize):
@@ -256,10 +256,10 @@ def thumbnailWrapper(inputFile, thumbnailWrapperSize):
         thumbnailWrapperFileName2 = inputFile.replace(".mp3", "_thumb2.mp3")
     wavfile.write(thumbnailWrapperFileName1, Fs, x[int(Fs * A1):int(Fs * A2)])
     wavfile.write(thumbnailWrapperFileName2, Fs, x[int(Fs * B1):int(Fs * B2)])
-    print "1st thumbnailWrapper (stored in file {0:s}): {1:4.1f}sec" \
-          " -- {2:4.1f}sec".format(thumbnailWrapperFileName1, A1, A2)
-    print "2nd thumbnailWrapper (stored in file {0:s}): {1:4.1f}sec" \
-          " -- {2:4.1f}sec".format(thumbnailWrapperFileName2, B1, B2)
+    print("1st thumbnailWrapper (stored in file {0:s}): {1:4.1f}sec" \
+          " -- {2:4.1f}sec".format(thumbnailWrapperFileName1, A1, A2))
+    print("2nd thumbnailWrapper (stored in file {0:s}): {1:4.1f}sec" \
+          " -- {2:4.1f}sec".format(thumbnailWrapperFileName2, B1, B2))
 
     # Plot self-similarity matrix:
     fig = plt.figure()
@@ -628,3 +628,10 @@ if __name__ == "__main__":
     elif args.task == "thumbnail":
         # Audio thumbnailing
         thumbnailWrapper(args.input, args.size)
+
+    # tmp
+    args.task = "speakerDiarization"
+    args.input = '/Volumes/Trainings/datasets/Deutsche Audiobücher+Epub/ZeitAudio/2015-16-audio-16_begabtenfoerderung_dl/16_begabtenfoerderung_dl.WAV'
+    args.num = 1
+    args.flsd = True
+    speakerDiarizationWrapper(args.input, args.num, args.flsd)
