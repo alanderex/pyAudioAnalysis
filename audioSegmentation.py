@@ -150,6 +150,7 @@ def readSegmentGT(gtFile):
      - segEnd:       a numpy array of segments' ending positions
      - segLabel:     a list of respective class labels (strings)
     '''
+    print(gtFile)
     f = open(gtFile, "rb")
     reader = csv.reader(f, delimiter=',')
     segStart = []
@@ -1007,7 +1008,7 @@ def speakerDiarization(fileName, numOfSpeakers, mtSize=2.0, mtStep=0.2, stWin=0.
 
     # load ground-truth if available
     # open for annotated file
-    gtFile = fileName.replace('.wav', '.segments')
+    gtFile = fileName.replace(os.path.splitext(fileName)[-1], '.segments')
     # if groundturh exists
     if os.path.isfile(gtFile):
         [segStart, segEnd, segLabels] = readSegmentGT(
